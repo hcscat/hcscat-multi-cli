@@ -1,0 +1,12 @@
+hcscat Multi CLI (multi-cli; formerly Multi CLI)
+Copyright 2026 hcscat
+
+This distribution includes the hcscat Multi CLI project, originally developed by hcscat
+and made available under the Apache License, Version 2.0.
+Original source: https://github.com/hcscat/hcscat-multi-cli
+
+Third-party code and provider marks have separate notices and terms recorded in
+THIRD_PARTY_NOTICES.md. Their inclusion does not imply endorsement by their owners.
+
+This notice is for attribution and information only and does not modify the
+Apache License, Version 2.0.

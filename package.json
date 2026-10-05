@@ -1,0 +1,322 @@
+{
+  "name": "multi-cli",
+  "displayName": "hcscat Multi CLI",
+  "description": "Windows 로컬 AI 세션 탐색, 중앙 터미널 재개와 폴더 선택 새 세션",
+  "version": "0.5.3",
+  "publisher": "multi-cli-local",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "hcscat",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hcscat/hcscat-multi-cli.git"
+  },
+  "homepage": "https://github.com/hcscat/hcscat-multi-cli#readme",
+  "bugs": {
+    "url": "https://github.com/hcscat/hcscat-multi-cli/issues"
+  },
+  "engines": {
+    "vscode": "^1.140.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "로컬 AI CLI 실행은 신뢰한 작업공간에서만 허용합니다."
+    },
+    "virtualWorkspaces": false
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onView:multiCli.sessions",
+    "onView:multiCli.agySessions",
+    "onView:multiCli.claudeSessions"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc && node scripts/build-worker.cjs",
+    "test": "npm run build && node --test test/*.test.cjs",
+    "package": "npm run build && node scripts/package-release.cjs",
+    "test:host": "npm run build && node scripts/test-host.cjs",
+    "check:privacy": "node scripts/check-privacy.cjs"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "multiCli",
+          "title": "hcscat Multi CLI",
+          "icon": "media/sessions.svg"
+        }
+      ]
+    },
+    "views": {
+      "multiCli": [
+        {
+          "id": "multiCli.sessions",
+          "name": "Codex",
+          "icon": "media/codex-dark.svg"
+        },
+        {
+          "id": "multiCli.agySessions",
+          "name": "Antigravity (agy)",
+          "icon": "media/agy-dark.svg"
+        },
+        {
+          "id": "multiCli.claudeSessions",
+          "name": "Claude Code",
+          "icon": "media/claude-dark.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "multiCli.refresh",
+        "title": "hcscat Multi CLI: 새로고침",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "multiCli.search",
+        "title": "hcscat Multi CLI: 불러온 세션 검색",
+        "icon": "$(search)"
+      },
+      {
+        "command": "multiCli.filter",
+        "title": "hcscat Multi CLI: 목록 범위 선택",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "multiCli.more",
+        "title": "hcscat Multi CLI: 더 보기"
+      },
+      {
+        "command": "multiCli.cancel",
+        "title": "hcscat Multi CLI: 목록 조회 취소",
+        "icon": "$(close)"
+      },
+      {
+        "command": "multiCli.details",
+        "title": "hcscat Multi CLI: 세션 상세"
+      },
+      {
+        "command": "multiCli.resume",
+        "title": "hcscat Multi CLI: Resume",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "multiCli.picker",
+        "title": "hcscat Multi CLI: Codex CLI 전체 picker 열기"
+      },
+      {
+        "command": "multiCli.diagnostics",
+        "title": "hcscat Multi CLI: 진단 열기"
+      },
+      {
+        "command": "multiCli.agy.refresh",
+        "title": "hcscat Multi CLI: Antigravity 새로고침",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "multiCli.agy.search",
+        "title": "hcscat Multi CLI: Antigravity 세션 검색",
+        "icon": "$(search)"
+      },
+      {
+        "command": "multiCli.agy.filter",
+        "title": "hcscat Multi CLI: Antigravity 목록 범위 선택",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "multiCli.agy.resume",
+        "title": "hcscat Multi CLI: Antigravity Resume",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "multiCli.agy.cancel",
+        "title": "hcscat Multi CLI: Antigravity 목록 조회 취소",
+        "icon": "$(close)"
+      },
+      {
+        "command": "multiCli.claude.refresh",
+        "title": "hcscat Multi CLI: Claude Code 새로고침",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "multiCli.claude.search",
+        "title": "hcscat Multi CLI: Claude Code 세션 검색",
+        "icon": "$(search)"
+      },
+      {
+        "command": "multiCli.claude.filter",
+        "title": "hcscat Multi CLI: Claude Code 목록 범위 선택",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "multiCli.claude.cancel",
+        "title": "hcscat Multi CLI: Claude Code 목록 조회 취소",
+        "icon": "$(close)"
+      },
+      {
+        "command": "multiCli.new",
+        "title": "hcscat Multi CLI: Codex 새 세션 열기",
+        "icon": "$(add)"
+      },
+      {
+        "command": "multiCli.agy.new",
+        "title": "hcscat Multi CLI: Antigravity 새 세션 열기",
+        "icon": "$(add)"
+      },
+      {
+        "command": "multiCli.claude.new",
+        "title": "hcscat Multi CLI: Claude Code 새 세션 열기",
+        "icon": "$(add)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "multiCli.refresh",
+          "when": "view == multiCli.sessions",
+          "group": "navigation@1"
+        },
+        {
+          "command": "multiCli.search",
+          "when": "view == multiCli.sessions",
+          "group": "navigation@2"
+        },
+        {
+          "command": "multiCli.filter",
+          "when": "view == multiCli.sessions",
+          "group": "navigation@3"
+        },
+        {
+          "command": "multiCli.cancel",
+          "when": "view == multiCli.sessions && multiCli.codex.loading",
+          "group": "navigation@4"
+        },
+        {
+          "command": "multiCli.agy.refresh",
+          "when": "view == multiCli.agySessions",
+          "group": "navigation@1"
+        },
+        {
+          "command": "multiCli.agy.search",
+          "when": "view == multiCli.agySessions",
+          "group": "navigation@2"
+        },
+        {
+          "command": "multiCli.agy.filter",
+          "when": "view == multiCli.agySessions",
+          "group": "navigation@3"
+        },
+        {
+          "command": "multiCli.agy.cancel",
+          "when": "view == multiCli.agySessions && multiCli.agy.loading",
+          "group": "navigation@4"
+        },
+        {
+          "command": "multiCli.claude.refresh",
+          "when": "view == multiCli.claudeSessions",
+          "group": "navigation@1"
+        },
+        {
+          "command": "multiCli.claude.search",
+          "when": "view == multiCli.claudeSessions",
+          "group": "navigation@2"
+        },
+        {
+          "command": "multiCli.claude.filter",
+          "when": "view == multiCli.claudeSessions",
+          "group": "navigation@3"
+        },
+        {
+          "command": "multiCli.claude.cancel",
+          "when": "view == multiCli.claudeSessions && multiCli.claude.loading",
+          "group": "navigation@4"
+        },
+        {
+          "command": "multiCli.new",
+          "when": "view == multiCli.sessions",
+          "group": "navigation@0"
+        },
+        {
+          "command": "multiCli.agy.new",
+          "when": "view == multiCli.agySessions",
+          "group": "navigation@0"
+        },
+        {
+          "command": "multiCli.claude.new",
+          "when": "view == multiCli.claudeSessions",
+          "group": "navigation@0"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "multiCli.resume",
+          "when": "view == multiCli.sessions && viewItem == session",
+          "group": "inline"
+        },
+        {
+          "command": "multiCli.agy.resume",
+          "when": "view == multiCli.agySessions && viewItem == agySession",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "hcscat Multi CLI",
+      "properties": {
+        "multiCli.executablePath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "절대 codex.exe 경로 또는 공식 npm codex.cmd/codex.ps1 경로. 비워두면 PATH에서 찾습니다."
+        },
+        "multiCli.codexHome": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "절대 CODEX_HOME 경로. 비워두면 환경변수 또는 사용자 기본값을 사용합니다."
+        },
+        "multiCli.claudeExecutablePath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "조회·새 세션에 사용할 절대 native claude.exe 경로. 비워두면 PATH와 공식 사용자 설치 위치에서 찾습니다."
+        },
+        "multiCli.claudeConfigDir": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Claude 기록을 읽을 절대 CLAUDE_CONFIG_DIR. 비워두면 환경 또는 사용자 기본값."
+        },
+        "multiCli.antigravityExecutablePath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "재개·새 세션에 사용할 절대 native agy.exe 경로. 비워두면 PATH와 공식 사용자 설치 위치에서 찾습니다."
+        },
+        "multiCli.antigravityDataRoot": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Antigravity 데이터 상위 폴더. 비워두면 사용자 기본 .gemini. CLI/앱/IDE 요약과 최근 캐시를 읽습니다. 직접 Resume는 기본 저장소의 CLI 기록을 지원합니다."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.3.286",
+    "@types/node": "^22.0.0",
+    "@types/vscode": "1.100.0",
+    "@vscode/test-electron": "^2.5.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "0.28.2",
+    "typescript": "^5.9.0"
+  }
+}

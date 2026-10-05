@@ -1,0 +1,2 @@
+const {build}=require('esbuild');
+build({entryPoints:['src/catalogWorker.ts'],outfile:'dist/catalogWorker.mjs',bundle:true,platform:'node',format:'esm',target:'node22',minify:true,legalComments:'inline',banner:{js:"import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);"}}).then(()=>require('node:fs/promises').copyFile('node_modules/@anthropic-ai/claude-agent-sdk/README.md','dist/claude-sdk-README.md')).catch(()=>process.exitCode=1);
